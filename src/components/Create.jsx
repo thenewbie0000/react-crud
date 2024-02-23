@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './create.css'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Create = () => {
   const [name, setName] = useState("");
@@ -15,20 +15,27 @@ const Create = () => {
       name:name,
       email:email, 
       headers: header,
-    });
-    history('/read');
+    })
+    .then(()=>{
+      history('/read');
+    })
   }
 
   return (
     <>
-      <h2>Create New Entry</h2>
+      <header>
+        <h2>Create New Entry</h2>
+        <Link to = '/read'>
+          <button type="button" className="btn btn-info">Show Data</button>
+        </Link>
+      </header>
       <form>
         <div className="mb-3">
           <label className="form-label">Name</label>
           <input 
             type="text" 
             className="form-control"   
-            onChange={(e) =>setName(e.target.value)} 
+            onChange={(e) =>setName(e.target.value)} required
           />
         </div>
         <div className="mb-3">
@@ -37,7 +44,7 @@ const Create = () => {
             type="email" 
             className="form-control"  
             aria-describedby="emailHelp"
-            onChange={(e) =>setEmail(e.target.value)}  
+            onChange={(e) =>setEmail(e.target.value)}  required
           />
         </div>
         <button
